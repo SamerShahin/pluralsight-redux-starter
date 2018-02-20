@@ -17,7 +17,7 @@ const CourseForm = ({course, allAuthors, onSave, onChange, saving, errors}) => {
                      value={course.authorId}
                      defaultOption="select Author"
                      options={allAuthors}
-                     error={errors.title}/>
+                     error=""/>
         <TextInput name="category"
                    label="Category"
                    onChange={onChange}

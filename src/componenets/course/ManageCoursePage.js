@@ -5,7 +5,8 @@ import * as courseActions from '../../actions/courseActions';
 import CourseForm from "./CourseForm";
 import toastr from 'toastr';
 
-class ManageCoursePage extends React.Component {
+//added the export of this class so we can use it for testing
+export class ManageCoursePage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -17,14 +18,16 @@ class ManageCoursePage extends React.Component {
     this.updateCourseState = this.updateCourseState.bind(this);
     this.saveCourse = this.saveCourse.bind(this);
   }
+
   //in React This method is called when props are passed to the Component instance. Let's dig a little deeper into what this means.
   //update the state when the props is changed
   componentWillReceiveProps(nextProps) {
-    if(this.props.course.id != nextProps.course.id) {
+    if (this.props.course.id != nextProps.course.id) {
       // Necessary to populate from when existing course is loaded directly
-      this.setState({course: Object.assign({} , nextProps.course)});
+      this.setState({course: Object.assign({}, nextProps.course)});
     }
   }
+
   updateCourseState(event) {
     const field = event.target.name;
     let course = Object.assign({}, this.state.course);
@@ -32,19 +35,31 @@ class ManageCoursePage extends React.Component {
     return this.setState({course: course});
   }
 
+  courseFormIsValid() {
+    let errors = {};
+    if (this.state.course.title.length < 5) {
+      errors.title = "Title must be at least 5 characters";
+      this.setState({errors:errors});
+      return false;
+    }
+    return true;
+  }
+
   saveCourse(event) {
     event.preventDefault();
+    if (!this.courseFormIsValid()) {
+      return;
+    }
     this.setState({saving: true});
-    this.props.actions.saveCourse(this.state.course).then(()=>{
+    this.props.actions.saveCourse(this.state.course).then(() => {
       this.redirect();
-    }).catch(error =>{
+    }).catch(error => {
       toastr.error(error);
       this.setState({saving: false});
-
     });
   }
 
-  redirect(){
+  redirect() {
     this.setState({saving: false});
     toastr.success("Course Saved");
     this.context.router.push('/courses');
