@@ -1,11 +1,10 @@
-
 import expect from 'expect';
 import * as courseActions from './courseActions';
 import * as types from './actionTypes';
 
 import thunk from 'redux-thunk';
-import nock from 'nock';
-import configureMockStore from 'redux-mock-store';
+import nock from 'nock'; // for mocking http calls
+import configureMockStore from 'redux-mock-store'; //let us configure a mock store
 
 // Test a sync action
 describe('Course Actions', () => {
@@ -32,6 +31,7 @@ const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
 describe('Async Actions', () => {
+  //performs a clean up after each mock call
   afterEach(() => {
     nock.cleanAll();
   });
