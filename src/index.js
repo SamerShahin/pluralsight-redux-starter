@@ -1,7 +1,7 @@
 import 'babel-polyfill'; //babel transpile es6 to es5 , but there is a set of features in es6 that babel cannot transpile and for those we use the pollyfill
 import React from 'react';
 import { render} from 'react-dom';
-import configureStore from './store/configureStore';
+import configureStore from './store/configureStore';//eslint-disable-line import/default
 import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
 import routes from './routes';
